@@ -26,6 +26,17 @@ menu "MQTT Temp Sensor"
                 I2C Speed of Master device.
     endmenu
 
+    menu "MQTT Topic Config"
+        config MQTT_TOPIC_LOCATION
+        string "Location of device"
+        default "home"
+
+        config MQTT_TOPIC_ROOM
+        string "Room device is in at location"
+        default "breadboard"
+
+    endmenu
+
     menu "MQTT Broker"
         config MQTT_HOST
             string "MQTT Hostname"

@@ -28,6 +28,12 @@
 #include "ssd1306_draw.h"
 #include "ssd1306_font.h"
 
+#define MQTT_SENSOR_TOPIC CONFIG_MQTT_TOPIC_LOCATION "/" \
+                          CONFIG_MQTT_TOPIC_ROOM "/sensor/"
+#define PRINTF_TELEGRAF_LINE "sensor,location=" CONFIG_MQTT_TOPIC_LOCATION \
+                             ",room=" CONFIG_MQTT_TOPIC_ROOM \
+                             " temperature=%0.2f,humidity=%0.2f,pressure=%0.2f"
+
 void user_delay_ms(uint32_t period)
 {
     //printf("Waiting: %d\r\n", period);
@@ -127,12 +133,15 @@ int8_t stream_sensor_data_forced_mode(struct bme280_dev *dev, esp_mqtt_client_ha
             user_delay_ms(1000);
             continue;
         }
-        char temperature_s[6];
-        sprintf(temperature_s, "%0.2f", comp_data.temperature);
-        esp_mqtt_client_publish(client, "home/minibreadboard/sensor/temperature", temperature_s, 0, 0, false);
+        char mqtt_data_buf[20];
+        sprintf(mqtt_data_buf, "%0.2f", comp_data.temperature);
+        esp_mqtt_client_publish(client, MQTT_SENSOR_TOPIC "/temperature", mqtt_data_buf, 0, 0, false);
+        sprintf(mqtt_data_buf, "%0.0f", comp_data.pressure);
+        esp_mqtt_client_publish(client, MQTT_SENSOR_TOPIC "/pressure", mqtt_data_buf, 0, 0, false);
+        sprintf(mqtt_data_buf, "%0.2f", comp_data.humidity);
+        esp_mqtt_client_publish(client, MQTT_SENSOR_TOPIC "/humidity", mqtt_data_buf, 0, 0, false);
         char telegraf[100];
-        sprintf(telegraf, "sensor,location=home,room=minibreadboard "
-                          "temperature=%0.2f,humidity=%0.2f,pressure=%0.2f",
+        sprintf(telegraf, PRINTF_TELEGRAF_LINE,
                           comp_data.temperature,
                           comp_data.humidity,
                           comp_data.pressure);
