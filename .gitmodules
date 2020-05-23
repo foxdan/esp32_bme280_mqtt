@@ -1,0 +1,6 @@
+[submodule "components/BME280_driver"]
+	path = components/BME280_driver
+	url = git@github.com:foxdan/BME280_driver.git
+[submodule "components/ssd1306"]
+	path = components/ssd1306
+	url = git@github.com:foxdan/tarablessd1306.git

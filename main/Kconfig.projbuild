@@ -1,0 +1,42 @@
+menu "MQTT Temp Sensor"
+
+    menu "I2C Master"
+        config I2C_MASTER_SCL
+            int "SCL GPIO Num"
+            default 22
+            help
+                GPIO number for I2C Master clock line.
+
+        config I2C_MASTER_SDA
+            int "SDA GPIO Num"
+            default 23
+            help
+                GPIO number for I2C Master data line.
+
+        config I2C_MASTER_PORT_NUM
+            int "Port Number"
+            default 0
+            help
+                Port number for I2C Master device.
+
+        config I2C_MASTER_FREQUENCY
+            int "Master Frequency"
+            default 1000000
+            help
+                I2C Speed of Master device.
+    endmenu
+
+    menu "MQTT Broker"
+        config MQTT_HOST
+            string "MQTT Hostname"
+            default "mqtt://"
+
+        config MQTT_CLIENT_ID
+            string "MQTT Client ID"
+            default "esp-idf"
+    endmenu
+
+    config SSD1306_ENABLE
+        bool "Enable SSD1306 128x32 OLED Display"
+        default y
+endmenu
