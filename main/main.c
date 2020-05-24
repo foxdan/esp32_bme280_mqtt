@@ -106,7 +106,7 @@ int8_t stream_sensor_data_forced_mode(struct bme280_dev *dev,
 #endif
     int8_t rslt;
     uint8_t settings_sel;
-	uint32_t req_delay;
+    uint32_t req_delay;
     struct bme280_data comp_data;
 
     /* Recommended mode of operation: Indoor navigation */
@@ -120,7 +120,7 @@ int8_t stream_sensor_data_forced_mode(struct bme280_dev *dev,
 
     rslt = bme280_set_sensor_settings(settings_sel, dev);
 
-	/* Calculate the minimum delay required between consecutive measurement
+    /* Calculate the minimum delay required between consecutive measurement
        based upon the sensor enabled *  and the oversampling configuration. */
     req_delay = bme280_cal_meas_delay(&dev->settings);
 
