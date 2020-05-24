@@ -35,6 +35,7 @@
                              " temperature=%0.2f,humidity=%0.2f,pressure=%0.2f"
 
 void user_delay_ms(uint32_t period) {
+    /* Add one (1) to ensure there is always a delay. */
     vTaskDelay((period/portTICK_PERIOD_MS)+1);
 }
 
@@ -149,10 +150,9 @@ int8_t stream_sensor_data_forced_mode(struct bme280_dev *dev,
         esp_mqtt_client_publish(client, MQTT_SENSOR_TOPIC "/humidity",
                                 mqtt_data_buf, 0, 0, false);
         char telegraf[100];
-        sprintf(telegraf, PRINTF_TELEGRAF_LINE,
-                          comp_data.temperature,
-                          comp_data.humidity,
-                          comp_data.pressure);
+        sprintf(telegraf, PRINTF_TELEGRAF_LINE, comp_data.temperature,
+                                                comp_data.humidity,
+                                                comp_data.pressure);
         esp_mqtt_client_publish(client, "telegraf", telegraf, 0, 0, false);
 #ifdef CONFIG_SSD1306_ENABLE
         char lcd_str[50];
